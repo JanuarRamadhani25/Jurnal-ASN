@@ -81,7 +81,7 @@ button.x{background:none;border:0;color:var(--bad);cursor:pointer;font:600 12px 
 a{color:var(--acc); text-decoration: none; font-weight: 500;} a:hover{text-decoration: underline;}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}
 .mut{color:var(--mut);font-size:13px}.bar{height:9px;background:var(--bar);border-radius:6px;overflow:hidden;margin:6px 0}
-.bar i{display:block;height:100%;background:var(--acc);border-radius:6px} /* Bar progres diubah biru */
+.bar i{display:block;height:100%;background:var(--acc);border-radius:6px}
 .tag{font-size:12px;padding:2px 10px;border-radius:6px;background:var(--bar); font-weight:500;}
 .warn{color:var(--warn)}.bad{color:var(--bad)}.ok{color:var(--ok)}
 .sug{background:var(--bar);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px; border-left: 3px solid var(--acc)}
@@ -126,7 +126,6 @@ button {
 button:active {
   transform: scale(0.95);
 }
-/* SOLUSI BUG ANIMASI DONUT: Animasi hover dibatasi HANYA untuk titik di diagram garis (.dot) */
 circle.dot {
   transition: r 0.2s ease, fill 0.2s ease;
   cursor: pointer;
@@ -158,13 +157,14 @@ const IC={dash:'<path d="M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z"/>',
 const svg=(k,c='i')=>`<svg class="${c}" viewBox="0 0 24 24">${IC[k]}</svg>`;
 const tabs=[['dash','Dashboard'],['jurnal','Jurnal Harian'],['skp','SKP'],['tugas','Tugas & Deadline'],['pantau','Pantau Deadline'],['wfh','Laporan WFH'],['set','Pengaturan']];
 
-// WARNA BARU CHART & AVATAR: Oranye, Biru Keuangan, Indigo Tekno, Cyan, Slate
 const PAL=['#EA580C','#2563EB','#4F46E5','#0891B2','#64748B'];
 const AV=['#EA580C','#2563EB','#0891B2','#4338CA'];
 
 const cut=(s,n)=>s.length>n?s.slice(0,n-1)+'\u2026':s;
-const initials=s=>s.replace(/,.*$/,'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('');
-function heroH(){const hr=new Date().getHours(),sal=hr<11?'Selamat pagi':hr<15?'Selamat siang':hr<18?'Selamat sore':'Selamat malam',nm=S.p.nama.replace(/,.*$/,'').split(' ')[0],t0=today();
+/* PERBAIKAN: Penambahan validasi string pada fungsi initials untuk mencegah crash jika nama kosong */
+const initials=s=>String(s||'A S').replace(/,.*$/,'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('');
+
+function heroH(){const hr=new Date().getHours(),sal=hr<11?'Selamat pagi':hr<15?'Selamat siang':hr<18?'Selamat sore':'Selamat malam',nm=String(S.p.nama||'Pengguna').replace(/,.*$/,'').split(' ')[0],t0=today();
 const ak=S.tugas.filter(t=>t.status!=='selesai').sort((a,b)=>a.deadline.localeCompare(b.deadline)),nd=ak[0],n=S.jurnal.filter(j=>j.tgl===t0).length;
 return `<div class='hero'><div><small>${fmt(t0,{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</small><h2>${sal}, ${esc(nm)}</h2><p>${n} catatan hari ini \u00b7 ${ak.length} tugas berjalan${nd?' \u00b7 deadline terdekat: '+esc(cut(nd.judul,32))+' ('+(diff(nd.deadline,t0)<0?'lewat '+(-diff(nd.deadline,t0))+' hari':diff(nd.deadline,t0)+' hari lagi')+')':''}</p></div><button class='b' data-tab='jurnal'>Catat pekerjaan</button></div>`}
 function vPantau(){const t0=today(),all=S.tugas,act=all.filter(t=>t.status!=='selesai').sort((a,b)=>a.deadline.localeCompare(b.deadline)),dn=all.filter(t=>t.status==='selesai').slice(-5).reverse();
@@ -207,20 +207,17 @@ else{const s=D(P.f);for(let i=0;i<12;i++){const dd=new Date(s.getFullYear(),s.ge
 const n=pts.length,c=pts.map(x=>x[1]),mx=Math.max(4,Math.ceil(Math.max(...c)/4)*4),W=600,H=210,L=32,R=12,T=10,B=28,xs=i=>L+i*(W-L-R)/Math.max(1,n-1),ys=v=>T+(H-T-B)*(1-v/mx),sk=Math.ceil(n/12);
 let p=`M${xs(0)},${ys(c[0])}`;for(let i=1;i<n;i++){const m=(xs(i-1)+xs(i))/2;p+=`C${m},${ys(c[i-1])} ${m},${ys(c[i])} ${xs(i)},${ys(c[i])}`}
 let g='';for(let k=0;k<=4;k++){const v=mx*k/4;g+=`<line x1='${L}' x2='${W-R}' y1='${ys(v)}' y2='${ys(v)}' stroke='var(--line)'/><text x='${L-6}' y='${ys(v)+4}' text-anchor='end' font-size='11' fill='var(--mut)'>${v}</text>`}
-/* MENGGUNAKAN CLASS="DOT" AGAR ANIMASI HOVER HANYA TERJADI DI SINI */
 const chart=`<div class='card'><div class='row sp'><h3>Aktivitas Jurnal \u2014 ${P.lb}</h3><span class='tag'>${P.mode==='d'?'catatan per hari':'catatan per bulan'}</span></div><svg viewBox='0 0 ${W} ${H}' style='width:100%;margin-top:8px'>${g}<path d='${p}L${xs(n-1)},${H-B}L${xs(0)},${H-B}Z' fill='var(--acc)' fill-opacity='.05'/><path d='${p}' fill='none' stroke='var(--acc)' stroke-width='2.5'/>${pts.map((q,i)=>`${n<=16||q[1]>0?`<circle class='dot' cx='${xs(i)}' cy='${ys(q[1])}' r='3.5' fill='var(--or)'><title>${q[1]} catatan</title></circle>`:''}${i%sk===0?`<text x='${xs(i)}' y='${H-8}' text-anchor='middle' font-size='11' fill='var(--mut)'>${q[0]}</text>`:''}`).join('')}</svg></div>`;
 const rec=[...E].reverse().sort((a,b)=>b.tgl.localeCompare(a.tgl)),meta=j=>{const k=S.skp.find(x=>x.id===j.skp);return k?['pg','Sesuai SKP',k.rhk]:['po','Tambahan','Tugas tambahan']};
 const act=`<div class='card'><h3>Aktivitas Terbaru</h3><div style='margin-top:8px'>${rec.slice(0,5).map((j,i)=>`<div class='act'><div class='ava' style='background:${AV[i%4]}'>${esc(initials(S.p.nama))}</div><div><b style='font-weight:600; color:var(--ink)'>${esc(cut(j.uraian,64))}</b><div class='mut'>${fmt(j.tgl,{day:'numeric',month:'short'})} \u00b7 ${esc(cut(meta(j)[2],30))}</div></div></div>`).join('')||"<p class='mut'>Tidak ada catatan pada periode ini.</p>"}</div></div>`;
 const tb=`<div class='card' style='overflow-x:auto'><div class='row sp'><h3>Pekerjaan pada Periode</h3><span class='mut'>${Math.min(6,rec.length)} dari ${rec.length}</span></div><table class='tbl' style='margin-top:6px'><tr><th>Tanggal</th><th>Uraian</th><th>Butir SKP</th><th>Output</th><th>Status</th></tr>${rec.slice(0,6).map(j=>{const m=meta(j);return `<tr><td>${fmt(j.tgl,{day:'numeric',month:'short'})}</td><td><b style='color:var(--ink)'>${esc(cut(j.uraian,46))}</b></td><td>${esc(cut(m[2],28))}</td><td>${esc(cut(j.output||'-',20))}</td><td><span class='pill ${m[0]}'>${m[1]}</span></td></tr>`}).join('')||"<tr><td colspan='5' class='mut'>Tidak ada catatan pada periode ini.</td></tr>"}</table></div>`;
 const cnt={};E.forEach(j=>{const k=S.skp.find(x=>x.id===j.skp),nm=k?cut(k.rhk,26):'Tugas tambahan';cnt[nm]=(cnt[nm]||0)+1});
 const ent=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5),sum=ent.reduce((a,e)=>a+e[1],0),C=2*Math.PI*40;let off=0;
-/* TANPA CLASS DOT = TIDAK ADA ANIMASI HOVER YANG MERUSAK DIAGRAM DONUT */
 const seg=ent.map((e,i)=>{const l=e[1]/sum*C,s=`<circle cx='60' cy='60' r='40' fill='none' stroke='${PAL[i]}' stroke-width='20' stroke-dasharray='${l} ${C-l}' stroke-dashoffset='${-off}' transform='rotate(-90 60 60)'><title>${esc(e[0])}: ${e[1]}</title></circle>`;off+=l;return s}).join('');
 const don=`<div class='card'><h3>Distribusi Pekerjaan</h3>${sum?`<svg viewBox='0 0 120 120' style='width:170px;display:block;margin:10px auto'>${seg}<text x='60' y='64' text-anchor='middle' font-size='16' font-weight='700' fill='var(--ink)'>${sum}</text></svg><div class='lg'>${ent.map((e,i)=>`<span><i style='background:${PAL[i]}'></i>${esc(e[0])} (${e[1]})</span>`).join('')}</div>`:"<p class='mut'>Tidak ada data pada periode ini.</p>"}</div>`;
 const prog=`<div class='card'><div class='row sp'><h3>Progres SKP Tahun Ini</h3><span class='mut'>patokan waktu \u00b1${yp}%</span></div>${S.skp.map(k=>{const r=Math.round(real(k.id)*100)/100,q=Math.min(100,Math.round(pctSkp(k))),vol=E.filter(j=>j.skp===k.id).reduce((a,j)=>a+(+j.qty||0),0);return `<div style='margin-top:10px'><div class='row sp'><span style='font-weight:600'>${esc(cut(k.rhk,70))}</span><span class='mut'>${r}/${k.target} ${esc(k.satuan\vert{}\vert{}'')} \u00b7 ${q}% \u00b7 <b style='color:var(--acc)'>+${Math.round(vol*100)/100} pada periode</b></span></div><div class='bar'><i style='width:${q}%'></i></div></div>`}).join('')||"<p class='mut'>Belum ada butir SKP. <button class='g' data-tab='skp'>Impor SKP dari PDF</button></p>"}</div>`;
 return heroH()+sel+stats+`<div class='dg'>${chart}${act}</div><div class='dg'>${tb}${don}</div>`+prog}
 
-// REVISI FUNGSI RENDER DENGAN ANIMASI
 function render(){
   $('#av').textContent=initials(S.p.nama);$('#dt').textContent=fmt(today(),{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   $('#nav').innerHTML=tabs.map(t=>`<button class="${tab===t[0]?'on':''}" data-tab="${t[0]}">${svg(t[0])}${t[1]}</button>`).join('');
@@ -233,7 +230,6 @@ function render(){
   mainEl.style.animation = null;
 }
 
-/* ---------- penyimpanan ---------- */
 const API_AUTO='__API_URL__';
 const cfg=()=>{let c={};try{c=JSON.parse(localStorage.getItem('jasn_api')||'{}')}catch(e){}return{url:c.url||(API_AUTO.indexOf('http')===0?API_AUTO:''),token:c.token||''}};
 let syncMsg='',st;
@@ -242,14 +238,12 @@ async function api(body){const c=cfg();if(!c.url)throw new Error('URL Web App be
 function adopt(d){const np={...S.p,...(d.p||{})};delete d.empty;S={...S,...d,p:np};try{localStorage.setItem('jasn',JSON.stringify(S))}catch(e){}}
 function save(){clearTimeout(st);st=setTimeout(()=>{try{localStorage.setItem('jasn',JSON.stringify(S))}catch(e){}if(cfg().url)apPushSilently()},600)}
 
-// Sinkronisasi diam-diam (saat ngetik/save otomatis)
 async function apPushSilently(){
   setSt('Menyimpan ke Spreadsheet...');
   try{ await api({action:'save',data:S}); setSt('Tersimpan di Spreadsheet \u00b7 '+new Date().toLocaleTimeString('id-ID')); }
   catch(e){ setSt('Gagal menyimpan: '+e.message); toast('Gagal menyimpan ke Spreadsheet: '+e.message); }
 }
 
-// PUSH/PULL DENGAN SWEETALERT2
 async function apPush(){
   Swal.fire({ title: 'Menyimpan...', text: 'Mengirim data ke Spreadsheet', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
   try {
@@ -289,8 +283,17 @@ async function apSave(){
     Swal.fire({ icon: 'error', title: 'Koneksi gagal', text: e.message });
   }
 }
+
+/* PERBAIKAN: Fungsi load diubah agar tidak menghapus struktur profil (shallow merge bug) */
 async function load(){
-  try{const l=localStorage.getItem('jasn');if(l)S={...S,...JSON.parse(l)}}catch(e){}
+  try{
+    const l=localStorage.getItem('jasn');
+    if(l){
+      const parsedData = JSON.parse(l);
+      const mergedProfile = {...S.p, ...(parsedData.p || {})};
+      S = {...S, ...parsedData, p: mergedProfile};
+    }
+  }catch(e){}
   render();
   if(cfg().url){
     try{
@@ -300,9 +303,9 @@ async function load(){
     }catch(e){toast('Spreadsheet tidak terjangkau: '+e.message)}
   }
 }
+
 function syncCard(){const c=cfg();return `<div class='card'><h3>Database Spreadsheet (Google Apps Script)</h3><div class='mut'>Isi alamat Web App dan token dari Code.gs agar data tersimpan di Google Spreadsheet Anda.</div><div class='grid' style='margin-top:8px'><div style='grid-column:1/-1'><label>URL Web App (berakhiran /exec)</label><input id='ap_u' value='${esc(c.url)}' placeholder='https://script.google.com/macros/s/.../exec'></div><div><label>Token</label><input id='ap_t' type='password' value='${esc(c.token)}'></div></div><div class='row' style='margin-top:10px'><button class='b' data-act='apSave'>Simpan & uji koneksi</button><button class='g' data-act='apPull'>Tarik dari Spreadsheet</button><button class='g' data-act='apPush'>Kirim ke Spreadsheet</button></div><div id='apst' class='mut' style='margin-top:8px'>${esc(syncMsg)}</div></div>`}
 
-/* ---------- util ---------- */
 const tok=t=>new Set(String(t).toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>3));
 function match(text){const t=tok(text);let best=null,sc=0;
  const chk=(o,kind,s)=>{let n=0;tok(s).forEach(w=>{if(t.has(w))n++});if(n>sc){sc=n;best={kind,o,n}}};
@@ -314,7 +317,6 @@ const optSkp=(v)=>'<option value="">— tanpa SKP —</option>'+S.skp.map(k=>`<o
 const optTugas=(v)=>'<option value="">— tanpa tugas —</option>'+S.tugas.filter(t=>t.status!=='selesai').map(k=>`<option value="${k.id}" ${v===k.id?'selected':''}>${esc(k.judul)}</option>`).join('');
 const val=id=>($('#'+id)||{}).value||'';
 
-/* ---------- tampilan ---------- */
 function vJurnal(){const ent=[...S.jurnal].sort((a,b)=>b.tgl.localeCompare(a.tgl)).slice(0,60);let last='',h='';
 ent.forEach(j=>{if(j.tgl!==last){last=j.tgl;h+=`<div class="dayh">${fmt(j.tgl,{weekday:'long',day:'numeric',month:'long'})}</div>`}
 const k=S.skp.find(x=>x.id===j.skp),t=S.tugas.find(x=>x.id===j.tugas);
@@ -396,13 +398,11 @@ function vSet0(){const f=[['nama','Nama'],['nip','NIP'],['jab','Jabatan'],['unit
 return `<div class="card"><h3>Identitas (dipakai di laporan WFH)</h3><div class="grid" style="margin-top:8px">${f.map(x=>`<div><label>${x[1]}</label><input data-p="${x[0]}" value="${esc(S.p[x[0]])}"></div>`).join('')}</div>
 <p class="mut">Perubahan tersimpan otomatis. Data tersimpan di peramban ini dan, bila Spreadsheet terhubung, juga di Google Spreadsheet.</p></div>`}
 
-// GANTI TOAST & ALERT BAWAAN DENGAN SWEETALERT
 const toast = m => {
   Swal.fire({ toast: true, position: 'bottom-end', icon: 'success', title: m, showConfirmButton: false, timer: 3000, timerProgressBar: true });
 };
 window.alert = m => Swal.fire({ icon: 'warning', title: 'Perhatian', text: m, confirmButtonColor: 'var(--acc)' });
 
-// SISTEM KONFIRMASI HAPUS INTERAKTIF
 const confirmDelete = (onConfirm) => {
   Swal.fire({
     title: 'Yakin hapus data ini?', text: "Data yang dihapus tidak bisa dikembalikan!", icon: 'warning', showCancelButton: true,
@@ -414,7 +414,6 @@ const confirmDelete = (onConfirm) => {
   });
 };
 
-/* ---------- aksi ---------- */
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.id==='hb'){document.body.classList.add('nav-open');return}if(b.id==='cl'){document.body.classList.remove('nav-open');return}
 if(b.dataset.tab){document.body.classList.remove('nav-open');tab=b.dataset.tab;ui.ej=ui.ek=ui.et=null;return render()}
 if(b.id==='absenTop'){if(S.absen)window.open(S.absen,'_blank','noopener');else{tab='wfh';ui.editA=1;render();alert('Tetapkan tautan absensi terlebih dahulu.')}return}
