@@ -126,6 +126,11 @@ input,select,textarea{border-radius:12px}
 .ri small{display:block;color:var(--mut)}
 @media(max-width:1280px){.shell{grid-template-columns:240px minmax(0,1fr)}#rp{display:none}}
 @media(max-width:820px){body{padding:0 8px 8px}.shell{grid-template-columns:minmax(0,1fr);border-radius:22px}aside{background:var(--side)}main{padding:16px}}
+.pck{align-self:flex-start;font:700 10px 'Plus Jakarta Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.25);padding:3px 9px;border-radius:99px;position:relative}
+.shell{overflow:clip}
+@media(min-width:821px){
+ aside,#rp{position:sticky;top:8px;align-self:start;height:calc(100vh - 16px);overflow-y:auto}
+}
 </style>
 </head><body>
 <div class="top"><button class="hb" id="hb" aria-label="Buka menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="logo"><i>&#9998;</i>Jurnal ASN</div><div class="fl"></div><span class="dt" id="dt"></span><button class="b" id="absenTop">Absen WFH</button><button class="tg" id="tg" aria-label="Ganti mode terang atau gelap"></button><div class="av" id="av"></div></div>
@@ -193,7 +198,7 @@ const sel=`<div class='card row' style='gap:14px;align-items:flex-end'><div><lab
 const tipOf=(ttl,a)=>ttl+'\n'+a.length+' pekerjaan dikerjakan'+(a.length?'\n\u2022 '+a.slice(0,4).map(j=>cut(j.uraian,42)).join('\n\u2022 ')+(a.length>4?'\n\u2026 dan '+(a.length-4)+' lainnya':''):'');
 let pts=[];if(P.mode==='d'){const n=diff(P.t,P.f)+1;for(let i=0;i<n;i++){const x=addDays(P.f,i),a=S.jurnal.filter(j=>j.tgl===x);pts.push([String(+x.slice(8)),a.length,tipOf(fmt(x,{weekday:'long',day:'numeric',month:'long',year:'numeric'}),a)])}}
 else{const s=D(P.f);for(let i=0;i<12;i++){const dd=new Date(s.getFullYear(),s.getMonth()+i,1),k=iso(dd).slice(0,7),a=E.filter(j=>j.tgl.slice(0,7)===k);pts.push([MN[dd.getMonth()].slice(0,3),a.length,tipOf(MN[dd.getMonth()]+' '+dd.getFullYear(),a)])}}
-const n=pts.length,c=pts.map(x=>x[1]),mx=Math.max(4,Math.ceil(Math.max(...c)/4)*4),W=600,H=210,L=32,R=12,T=10,B=28,xs=i=>L+i*(W-L-R)/Math.max(1,n-1),ys=v=>T+(H-T-B)*(1-v/mx),sk=Math.ceil(n/12);
+const n=pts.length,c=pts.map(x=>x[1]),mx=Math.max(4,Math.ceil(Math.max(...c)/4)*4),W=600,H=310,L=32,R=12,T=10,B=28,xs=i=>L+i*(W-L-R)/Math.max(1,n-1),ys=v=>T+(H-T-B)*(1-v/mx),sk=Math.ceil(n/12);
 let p=`M${xs(0)},${ys(c[0])}`;for(let i=1;i<n;i++){const m=(xs(i-1)+xs(i))/2;p+=`C${m},${ys(c[i-1])} ${m},${ys(c[i])} ${xs(i)},${ys(c[i])}`}
 let g='';for(let k=0;k<=4;k++){const v=mx*k/4;g+=`<line x1='${L}' x2='${W-R}' y1='${ys(v)}' y2='${ys(v)}' stroke='var(--line)'/><text x='${L-6}' y='${ys(v)+4}' text-anchor='end' font-size='11' fill='var(--mut)'>${v}</text>`}
 const chart=`<div class='card'><div class='row sp'><h3>Aktivitas Jurnal \u2014 ${P.lb}</h3><span class='tag'>${P.mode==='d'?'catatan per hari':'catatan per bulan'}</span></div><svg viewBox='0 0 ${W} ${H}' style='width:100%;margin-top:8px'>${g}<path d='${p}L${xs(n-1)},${H-B}L${xs(0)},${H-B}Z' fill='var(--ink)' fill-opacity='.08'/><path d='${p}' fill='none' stroke='var(--ink)' stroke-width='2.5'/>${pts.map((q,i)=>`${n<=16||q[1]>0?`<circle cx='${xs(i)}' cy='${ys(q[1])}' r='3.5' fill='var(--or)'/>`:''}${i%sk===0?`<text x='${xs(i)}' y='${H-8}' text-anchor='middle' font-size='11' fill='var(--mut)'>${q[0]}</text>`:''}`).join('')}${pts.map((q,i)=>`<circle class='hit' data-tip="${esc(q[2])}" cx='${xs(i)}' cy='${ys(q[1])}' r='9'/>`).join('')}</svg></div>`;
@@ -463,10 +468,10 @@ const lk=document.createElement('link');lk.rel='icon';lk.type='image/svg+xml';lk
 document.documentElement.style.setProperty('--lg','url("'+URI+'")');
 
 function pcHTML(){const t0=today();
- const it=S.tugas.filter(t=>t.status!=='selesai').sort((a,b)=>a.deadline.localeCompare(b.deadline)).slice(0,3).map(t=>{const d=diff(t.deadline,t0);return{n:t.judul,s:d<0?'Lewat '+(-d)+' hari':d+' hari lagi',p:t.progres}});
- if(it.length<3)S.skp.slice(0,3-it.length).forEach(k=>it.push({n:k.rhk,s:k.target+' '+(k.satuan||''),p:Math.min(100,Math.round(pctSkp(k)))}));
+ const it=S.tugas.filter(t=>t.status!=='selesai').sort((a,b)=>a.deadline.localeCompare(b.deadline)).slice(0,3).map(t=>{const d=diff(t.deadline,t0);return{k:'Deadline',n:t.judul,s:d<0?'Lewat '+(-d)+' hari':d===0?'Hari ini':d+' hari lagi',p:t.progres}});
+ if(it.length<3)S.skp.slice(0,3-it.length).forEach(k=>it.push({k:'SKP',n:k.rhk,s:'Target '+k.target+' '+(k.satuan||''),p:Math.min(100,Math.round(pctSkp(k)))}));
  if(!it.length)return'';
- return `<div class="pc-row">`+it.map((x,i)=>`<div class="pc c${i}"><div class="pcn">${esc(cut(x.n,44))}</div><div class="pcs">${esc(x.s)} \u00b7 ${x.p}%</div><div class="pcb"><i style="width:${x.p}%"></i></div></div>`).join('')+`</div>`}
+ return `<div class="pc-row">`+it.map((x,i)=>`<div class="pc c${i}"><span class="pck">${x.k}</span><div class="pcn">${esc(cut(x.n,44))}</div><div class="pcs">${esc(x.s)} \u00b7 ${x.p}%</div><div class="pcb"><i style="width:${x.p}%"></i></div></div>`).join('')+`</div>`}
 
 function paintProf(){const p=S.p,f=p.foto,ini=initials(p.nama);
  let b=$('#prof');if(!b){b=document.createElement('div');b.id='prof';$('aside').insertBefore(b,$('#nav'))}
