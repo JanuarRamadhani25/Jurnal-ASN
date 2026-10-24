@@ -131,6 +131,22 @@ input,select,textarea{border-radius:12px}
 @media(min-width:821px){
  aside,#rp{position:sticky;top:8px;align-self:start;height:calc(100vh - 16px);overflow-y:auto}
 }
+#rp{display:flex;flex-direction:column}
+.cal{margin-top:auto;padding-top:18px}
+.cal-box{background:var(--card);border-radius:20px;padding:14px;box-shadow:var(--sh)}
+.cal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cal-h b{font:700 14px Sora,sans-serif}
+.cal-h button{width:26px;height:26px;border-radius:50%;border:0;background:var(--bar);color:var(--ink);cursor:pointer;font-size:15px;line-height:1;padding:0}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;font-size:11px}
+.cal-g span{padding:6px 0;border-radius:9px;position:relative}
+.cal-g .w{color:var(--mut);font-weight:600}
+.cal-g .wf{background:color-mix(in srgb,var(--acc) 18%,transparent)}
+.cal-g .lb{color:var(--bad)}
+.cal-g .t{background:var(--ink);color:var(--card);font-weight:700}
+.cal-g .dl:after{content:"";position:absolute;bottom:2px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--or)}
+.cal-lg{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:10px;font-size:10px;color:var(--mut)}
+.cal-lg i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.cal-art{display:block;width:100%;margin-top:12px}
 </style>
 </head><body>
 <div class="top"><button class="hb" id="hb" aria-label="Buka menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="logo"><i>&#9998;</i>Jurnal ASN</div><div class="fl"></div><span class="dt" id="dt"></span><button class="b" id="absenTop">Absen WFH</button><button class="tg" id="tg" aria-label="Ganti mode terang atau gelap"></button><div class="av" id="av"></div></div>
@@ -478,12 +494,24 @@ function paintProf(){const p=S.p,f=p.foto,ini=initials(p.nama);
  b.innerHTML=`<label class="avw" title="Klik untuk ganti foto"><span class="avl" style="${f?`background-image:url(${f})`:''}">${f?'':esc(ini)}</span><input type="file" id="fotoIn" accept="image/*" hidden><em>&#128247;</em></label><b>${esc(cut(p.nama.replace(/,.*$/,''),26))}</b><small>${esc(p.jab)}</small>${f?`<button class="x" id="fotoDel">hapus foto</button>`:''}`;
  const a=$('#av');a.style.backgroundImage=f?`url(${f})`:'';a.style.backgroundSize='cover';a.textContent=f?'':ini}
 
+let calOff=0;
+const ART=`<svg class="cal-art" viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="120" cy="110" rx="105" ry="8" fill="#3f8573" opacity=".15"/><rect x="72" y="72" width="100" height="6" rx="3" fill="#34423d"/><rect x="80" y="78" width="5" height="30" fill="#34423d"/><rect x="159" y="78" width="5" height="30" fill="#34423d"/><rect x="104" y="52" width="36" height="21" rx="3" fill="#3f8573"/><rect x="99" y="71" width="46" height="3" rx="1.5" fill="#34423d"/><path d="M114 63l5 5 8-9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="46" cy="38" r="9" fill="#f1c9a5"/><path d="M37 37a9 9 0 0 1 18 0c-4-4-12-5-18 0z" fill="#34423d"/><rect x="36" y="49" width="20" height="38" rx="9" fill="#eba37c"/><rect x="38" y="85" width="7" height="22" rx="3" fill="#34423d"/><rect x="47" y="85" width="7" height="22" rx="3" fill="#34423d"/><rect x="55" y="58" width="13" height="17" rx="2" fill="#fff" stroke="#34423d" stroke-width="1.5"/><path d="M58 63h7M58 67h7M58 71h4" stroke="#3f8573" stroke-width="1.4" stroke-linecap="round"/><circle cx="192" cy="46" r="9" fill="#f1c9a5"/><path d="M183 46a9 9 0 0 1 18 0c0 3-2 5-3 5-1-5-9-8-15-5z" fill="#6b4a3a"/><rect x="182" y="56" width="20" height="30" rx="9" fill="#5aa6b8"/><rect x="178" y="84" width="30" height="7" rx="3.5" fill="#34423d"/><rect x="186" y="90" width="7" height="17" rx="3" fill="#34423d"/><rect x="197" y="90" width="7" height="17" rx="3" fill="#34423d"/><path d="M182 64c-8 2-14 6-20 10" stroke="#5aa6b8" stroke-width="6" stroke-linecap="round" fill="none"/><rect x="214" y="92" width="12" height="16" rx="3" fill="#eba37c"/><path d="M220 92c-9-4-10-14-8-18 7 2 10 9 8 18zM220 92c8-3 11-12 9-17-7 1-10 8-9 17z" fill="#3f8573"/></svg>`;
+
+function calHTML(){const t0=today(),n=new Date(),dt=new Date(n.getFullYear(),n.getMonth()+calOff,1),y=dt.getFullYear(),m=dt.getMonth(),
+ lead=(dt.getDay()+6)%7,days=new Date(y,m+1,0).getDate(),dls=new Set(S.tugas.filter(t=>t.status!=='selesai').map(t=>t.deadline));
+ let c=['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(x=>`<span class="w">${x}</span>`).join('')+'<span></span>'.repeat(lead);
+ for(let d=1;d<=days;d++){const k=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'),wd=D(k).getDay(),lb=S.libur[k]===true,wf=!lb&&(wd===2||wd===5||S.libur[k]===false);
+  c+=`<span class="${k===t0?'t':''} ${wf?'wf':''} ${lb?'lb':''} ${dls.has(k)?'dl':''}">${d}</span>`}
+ return `<div class="cal"><div class="cal-box"><div class="cal-h"><button data-cal="-1" aria-label="Bulan sebelumnya">\u2039</button><b>${MN[m]} ${y}</b><button data-cal="1" aria-label="Bulan berikutnya">\u203a</button></div><div class="cal-g">${c}</div><div class="cal-lg"><span><i style="background:var(--acc);opacity:.5"></i>WFH</span><span><i style="background:var(--or)"></i>Deadline</span><span><i style="background:var(--bad)"></i>Libur</span></div></div>${ART}</div>`}
+
 function paintRP(){let r=$('#rp');if(!r){r=document.createElement('div');r.id='rp';$('.shell').appendChild(r)}
  const t0=today(),g={};
  S.tugas.filter(t=>t.status!=='selesai').sort((a,b)=>a.deadline.localeCompare(b.deadline)).slice(0,6).forEach(t=>(g[t.deadline]=g[t.deadline]||[]).push(t));
  let w=t0;for(let i=0;i<14;i++){const x=addDays(t0,i),wd=D(x).getDay();if((wd===2||wd===5)&&S.libur[x]!==true){w=x;break}}
  r.innerHTML=`<h3>Agenda</h3><div class="mut">${fmt(t0,{weekday:'long',day:'numeric',month:'long'})}</div><div class="wfhn"><small>WFH berikutnya</small><b>${fmt(w,{weekday:'long',day:'numeric',month:'short'})}</b></div>`+
- (Object.keys(g).map(d=>`<div class="rd">${fmt(d,{day:'numeric',month:'short',year:'numeric'})}${diff(d,t0)<0?' \u00b7 terlambat':''}</div>`+g[d].map((t,i)=>`<div class="ri c${i%3}"><b>${esc(cut(t.judul,34))}</b><small>${t.progres}% selesai</small></div>`).join('')).join('')||'<p class="mut">Tidak ada deadline aktif.</p>')}
+ (Object.keys(g).map(d=>`<div class="rd">${fmt(d,{day:'numeric',month:'short',year:'numeric'})}${diff(d,t0)<0?' \u00b7 terlambat':''}</div>`+g[d].map((t,i)=>`<div class="ri c${i%3}"><b>${esc(cut(t.judul,34))}</b><small>${t.progres}% selesai</small></div>`).join('')).join('')||'<p class="mut">Tidak ada deadline aktif.</p>')+calHTML()}
+
+document.addEventListener('click',e=>{const b=e.target.closest('[data-cal]');if(b){calOff+=+b.dataset.cal;paintRP()}});
 
 const _r=render;
 render=function(){_r();paintProf();paintRP();
