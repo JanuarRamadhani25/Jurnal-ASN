@@ -153,71 +153,135 @@ input,select,textarea{border-radius:12px}
 .asc{position:absolute;inset:0;overflow:auto;overscroll-behavior:contain;padding-right:6px}
 @media(max-width:900px){.ascw{flex:none;height:320px}.asc{position:static;height:100%}}
 </style>
-<meta name="theme-color" content="#5a3a28">
+<meta name="theme-color" content="#2e3347">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<style id="tema-coklat">
-/* ---------- Palet: walnut, mocha, madu, oat ---------- */
-:root{--bg:#efe6da;--side:#f6efe5;--card:#fffaf2;--inp:#fffdf8;--ink:#3a2a20;--mut:#86705f;--line:#e4d5c3;--acc:#8a5a3c;--accT:#fff;--or:#cf9254;--warn:#a9661f;--bad:#b4473a;--ok:#587a45;--bar:#e9dac7;--top:#5a3a28;--h1:#8a5a3c;--h2:#c9a27e;--sh:0 2px 14px rgba(80,50,30,.10);--g1:rgba(207,146,84,.30);--g2:rgba(138,90,60,.20);
- --wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 300' preserveAspectRatio='none'%3E%3Cpath d='M0 200C200 130 380 270 620 200S1000 120 1200 190' fill='none' stroke='%238a5a3c' stroke-opacity='.16' stroke-width='2'/%3E%3Cpath d='M0 235C210 165 390 305 630 235S1010 155 1200 225' fill='none' stroke='%23cf9254' stroke-opacity='.22' stroke-width='2'/%3E%3Cpath d='M0 270C220 200 400 340 640 270S1020 190 1200 260' fill='none' stroke='%238a5a3c' stroke-opacity='.10' stroke-width='2'/%3E%3C/svg%3E")}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1410;--side:#241a14;--card:#2d2119;--inp:#211811;--ink:#f2e7db;--mut:#bba593;--line:#443429;--acc:#d6a470;--accT:#2a1809;--or:#e0a366;--warn:#e8b072;--bad:#ef9a8e;--ok:#aecf9e;--bar:#443429;--top:#3a2a20;--h1:#4a3427;--h2:#8a6446;--sh:0 2px 14px rgba(0,0,0,.4);--g1:rgba(214,150,90,.15);--g2:rgba(130,85,50,.28)}}
-:root[data-theme="dark"]{--bg:#1b1410;--side:#241a14;--card:#2d2119;--inp:#211811;--ink:#f2e7db;--mut:#bba593;--line:#443429;--acc:#d6a470;--accT:#2a1809;--or:#e0a366;--warn:#e8b072;--bad:#ef9a8e;--ok:#aecf9e;--bar:#443429;--top:#3a2a20;--h1:#4a3427;--h2:#8a6446;--sh:0 2px 14px rgba(0,0,0,.4);--g1:rgba(214,150,90,.15);--g2:rgba(130,85,50,.28)}
+<style id="tema-earthy">
+/* ---------- Palet earthy & vintage-modern ---------- */
+:root{--bg:#efe5d2;--side:#f6efe0;--card:#fffaf0;--inp:#fffdf6;--ink:#2b2f3e;--mut:#7a7262;--line:#e6dcc7;--acc:#3f4a7a;--accT:#fff;--or:#c4623c;--warn:#a8701a;--bad:#b4472f;--ok:#4d6a48;--bar:#ece1cb;--top:#2e3347;--sh:0 2px 14px rgba(60,50,40,.10);
+ --terra:#c4623c;--sage:#6b8866;--sage-d:#4d6a48;--ochre:#d6a032;--indigo:#3f4a7a;--mauve:#8b6f9c;--slate:#2e3347;--slate2:#252a3b;--g1:rgba(214,160,50,.22);--g2:rgba(196,98,60,.14);
+ --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .2 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15161d;--side:#1e202b;--card:#282b38;--inp:#202330;--ink:#efe9dc;--mut:#aaa493;--line:#3a3d4c;--acc:#8c9ad6;--accT:#12152a;--or:#e0845f;--warn:#e3b25a;--bad:#ef9a8e;--ok:#a9c7a0;--bar:#3a3d4c;--top:#171925;--sh:0 2px 14px rgba(0,0,0,.45);--terra:#e0845f;--sage:#8fae86;--sage-d:#a9c7a0;--ochre:#e0b455;--indigo:#8c9ad6;--mauve:#b79bc9;--slate:#171925;--slate2:#12141d;--g1:rgba(224,180,85,.10);--g2:rgba(224,132,95,.10)}}
+:root[data-theme="dark"]{--bg:#15161d;--side:#1e202b;--card:#282b38;--inp:#202330;--ink:#efe9dc;--mut:#aaa493;--line:#3a3d4c;--acc:#8c9ad6;--accT:#12152a;--or:#e0845f;--warn:#e3b25a;--bad:#ef9a8e;--ok:#a9c7a0;--bar:#3a3d4c;--top:#171925;--sh:0 2px 14px rgba(0,0,0,.45);--terra:#e0845f;--sage:#8fae86;--sage-d:#a9c7a0;--ochre:#e0b455;--indigo:#8c9ad6;--mauve:#b79bc9;--slate:#171925;--slate2:#12141d;--g1:rgba(224,180,85,.10);--g2:rgba(224,132,95,.10)}
 
-/* ---------- Latar: cahaya hangat + gelombang tipis ---------- */
+/* ---------- Latar krem bertekstur ---------- */
 html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{background:var(--wave) bottom/100% 300px no-repeat,radial-gradient(900px 520px at 100% -8%,var(--g1),transparent 62%),radial-gradient(760px 520px at -10% 100%,var(--g2),transparent 62%),linear-gradient(180deg,var(--bg),color-mix(in srgb,var(--bg) 86%,#b98a5e))!important;background-attachment:fixed!important;overflow-x:clip;min-height:100dvh}
-.shell{background:color-mix(in srgb,var(--side) 84%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(70,40,20,.16)}
-.card{border:1px solid color-mix(in srgb,var(--line) 70%,transparent);box-shadow:0 4px 18px rgba(80,50,30,.08)}
-.logo i{font-size:17px!important;color:#fff;background:linear-gradient(135deg,#d9a066,#8a5a3c)!important;box-shadow:0 4px 12px rgba(90,58,40,.35)}
-.top .b{background:var(--acc);color:var(--accT)}
-.hero .b{background:var(--acc);color:var(--accT)}
-#nav button.on{background:var(--acc);color:var(--accT)}
-.cal-g .t,.wfhn{background:var(--acc);color:var(--accT)}
-.cal-art{filter:sepia(.8) saturate(1.1)}
-.pc.c0{background:linear-gradient(135deg,#8a5a3c,#5a3a28)}
-.pc.c1{background:linear-gradient(135deg,#c9a27e,#a47a54)}
-.pc.c2{background:linear-gradient(135deg,#d49a58,#a9661f)}
-.ri.c2{border-color:#a8825f}
-.cal-g .wf{background:color-mix(in srgb,var(--acc) 20%,transparent)}
-input:focus,select:focus,textarea:focus{outline-color:var(--or)}
+body{background:radial-gradient(900px 520px at 100% -8%,var(--g1),transparent 62%),radial-gradient(760px 520px at -10% 100%,var(--g2),transparent 62%),var(--bg)!important;background-attachment:fixed!important;overflow-x:clip;min-height:100dvh}
+.shell{background:var(--grain),var(--side);box-shadow:0 18px 50px rgba(40,35,30,.18)}
+.card{background:var(--card);border:1px solid color-mix(in srgb,var(--line) 75%,transparent);box-shadow:0 4px 18px rgba(60,50,40,.08)}
+h2.pt::after{content:"";display:block;width:46px;height:4px;border-radius:4px;margin-top:8px;background:linear-gradient(90deg,var(--terra),var(--ochre),var(--sage))}
+.logo i{font-size:17px!important;color:#fff;background:linear-gradient(135deg,var(--terra),#8f3f22)!important;box-shadow:0 4px 12px rgba(150,70,40,.35)}
+.top,.top .logo{color:var(--ink)}
 
-/* ---------- Bilah navigasi bawah (khusus HP) ---------- */
+/* ---------- Sidebar indigo-slate ---------- */
+aside{background:radial-gradient(260px 220px at 0 0,rgba(107,136,102,.22),transparent 70%),linear-gradient(180deg,var(--slate),var(--slate2))!important;border-right:0!important}
+#nav button{color:rgba(240,236,226,.72)}
+#nav button:hover{background:rgba(255,255,255,.08)}
+#nav button.on{background:#6b8866;color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+#prof b{color:#f4efe4}#prof small{color:rgba(240,236,226,.62)}
+.avl{border-color:var(--slate);box-shadow:0 0 0 3px #6b8866}
+.dh .logo,.dh button{color:#f4efe4}
+
+/* ---------- Tombol ---------- */
+.top .b{background:#b5694d;color:#fff}
+.hero .b,button.b{background:var(--acc);color:var(--accT)}
+.top .b{background:#b5694d;color:#fff}
+.hero{color:var(--ink)}
+a,button.x[style]{color:var(--acc)}
+input:focus,select:focus,textarea:focus{outline-color:var(--ochre)}
+.tag{background:color-mix(in srgb,var(--sage) 16%,var(--bar));color:var(--ink)}
+.pg{background:color-mix(in srgb,var(--sage) 22%,transparent);color:var(--sage-d)}
+.po{background:color-mix(in srgb,var(--ochre) 26%,transparent);color:var(--warn)}
+.pr{background:color-mix(in srgb,var(--terra) 20%,transparent);color:var(--bad)}
+.pn{background:color-mix(in srgb,var(--indigo) 14%,transparent);color:var(--indigo)}
+
+/* ---------- Kartu aksen Dashboard ---------- */
+.pc.c0{background:linear-gradient(135deg,#d0714a,#a24c2c)}
+.pc.c1{background:linear-gradient(135deg,#86a07b,#5b7855)}
+.pc.c2{background:linear-gradient(135deg,#e1b24a,#bd8a22);color:#2f2208}
+.pc.c2 .pck{background:rgba(0,0,0,.12)}.pc.c2 .pcb{background:rgba(0,0,0,.16)}.pc.c2 .pcb i{background:#2f2208}
+.ri{border-color:var(--sage)}.ri.c1{border-color:var(--terra)}.ri.c2{border-color:var(--indigo)}
+
+/* ---------- Kartu statistik ---------- */
+.stats>.card:nth-child(1) .ic{background:color-mix(in srgb,var(--sage) 20%,transparent);color:var(--sage-d)}
+.stats>.card:nth-child(2) .ic{background:color-mix(in srgb,var(--indigo) 16%,transparent);color:var(--indigo)}
+.stats>.card:nth-child(3) .ic,.stats>.card:nth-child(3) .ic.or{background:color-mix(in srgb,var(--terra) 20%,transparent);color:var(--terra)}
+.stats>.card:nth-child(4) .ic{background:color-mix(in srgb,var(--mauve) 22%,transparent);color:var(--mauve)}
+.stats>.card:nth-child(4) .pill{background:color-mix(in srgb,var(--mauve) 20%,transparent);color:var(--mauve)}
+
+/* ---------- Panel kanan & kalender berwarna ---------- */
+#rp{background:color-mix(in srgb,var(--bar) 45%,var(--side));border-left:1px solid var(--line)}
+.wfhn{background:linear-gradient(135deg,#d0714a,#a24c2c);color:#fff;box-shadow:0 10px 22px rgba(160,75,45,.28)}
+.cal-g span{aspect-ratio:1;display:grid;place-items:center;border-radius:50%;padding:0;font-weight:600}
+.cal-g .w{aspect-ratio:auto;border-radius:0;font-weight:600}
+.cal-g span:not(.w):not(:empty):nth-child(4n+1){background:color-mix(in srgb,var(--sage) 14%,transparent)}
+.cal-g span:not(.w):not(:empty):nth-child(4n+2){background:color-mix(in srgb,var(--terra) 12%,transparent)}
+.cal-g span:not(.w):not(:empty):nth-child(4n+3){background:color-mix(in srgb,var(--indigo) 12%,transparent)}
+.cal-g span:not(.w):not(:empty):nth-child(4n){background:color-mix(in srgb,var(--ochre) 18%,transparent)}
+.cal-g .wf{background:var(--sage)!important;color:#fff}
+.cal-g .lb{background:var(--ochre)!important;color:#2f2208}
+.cal-g .dl{background:var(--terra)!important;color:#fff}.cal-g .dl:after{display:none}
+.cal-g .t{background:var(--indigo)!important;color:#fff;box-shadow:0 4px 10px rgba(63,74,122,.4)}
+.cal-lg span:nth-child(1) i{background:var(--sage)!important;opacity:1!important}.cal-lg span:nth-child(2) i{background:var(--terra)!important}.cal-lg span:nth-child(3) i{background:var(--ochre)!important}
+.cal-art{filter:sepia(.45) saturate(1.1)}
+
+/* ---------- Menu selain Dashboard: aksen warna tiap kartu ---------- */
+body:not([data-tab=dash]) main>div.card{--c:var(--sage);box-shadow:inset 0 3px 0 var(--c),0 4px 18px rgba(60,50,40,.08)}
+body:not([data-tab=dash]) main>div.card:nth-of-type(4n+2){--c:var(--terra)}
+body:not([data-tab=dash]) main>div.card:nth-of-type(4n+3){--c:var(--indigo)}
+body:not([data-tab=dash]) main>div.card:nth-of-type(4n){--c:var(--ochre)}
+body:not([data-tab=dash]) main .dayh{color:var(--indigo)}
+body:not([data-tab=dash]) main .bar i{background:linear-gradient(90deg,var(--ochre),var(--terra))}
+.sug{background:color-mix(in srgb,var(--ochre) 16%,var(--bar))}
+
+/* ---------- Navigasi bawah HP ---------- */
 #bn{display:none}
 
-/* ---------- Responsif HP & tablet ---------- */
+/* ---------- Responsif ---------- */
+.dg>.card{min-width:0;max-width:100%}
+.lg span{max-width:100%;overflow-wrap:anywhere}
+@media(max-width:900px){.dg{grid-template-columns:minmax(0,1fr)!important}}
 @media(max-width:820px){
  :root{padding-top:0!important}
  body{padding:0 10px;background-attachment:scroll!important;font-size:14.5px}
- .top{position:sticky;top:0;z-index:30;margin:0 -10px 6px;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent);gap:10px}
- .top .logo{font-size:16px}
+ .top{position:sticky;top:0;z-index:30;margin:0 -10px 6px;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);gap:10px}
+ .top .logo{font-size:16px}.top .hb{color:var(--ink)}
  .top .b{padding:8px 11px;font-size:12px}
  .shell{display:block;background:transparent;box-shadow:none;border-radius:0;-webkit-backdrop-filter:none;backdrop-filter:none;overflow:visible}
- main{padding:6px 0 calc(100px + env(safe-area-inset-bottom,0px))!important}
+ main{padding:6px 0 calc(100px + env(safe-area-inset-bottom,0px))!important;min-width:0}
  h2.pt{font-size:21px;margin-bottom:12px}
  .hero{padding:0 0 6px;align-items:flex-start}.hero h2{font-size:22px}.hero .b{width:100%;min-height:46px}
  .card{padding:14px;border-radius:18px;margin-bottom:12px}
  .grid{grid-template-columns:minmax(0,1fr)}
  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
- .stat{gap:10px}.stat b{font-size:21px}.ic{width:38px;height:38px}.ic svg{width:19px;height:19px}.stat .row.sp{gap:4px}
- input,select,textarea{font-size:16px;min-height:44px}
- textarea{min-height:84px}
+ .stat{gap:10px}.stat b{font-size:21px}.ic{width:38px;height:38px}.ic svg{width:19px;height:19px}
+ input,select,textarea{font-size:16px;min-height:44px}textarea{min-height:84px}
  button.b,button.g{min-height:44px}button.x{min-height:36px;padding:0 6px}
  input[type=range]{width:100%!important;min-height:32px}
  .card.row select,#dpm,#dpy{width:100%!important;min-width:0!important}
- .row{gap:8px}.row.sp{align-items:flex-start}
- .row>.b,.row>.g{flex:1 1 auto}
- .tscroll{max-height:300px;-webkit-overflow-scrolling:touch}.tbl{min-width:520px}
+ .row{gap:8px}.row>.b,.row>.g{flex:1 1 auto}
  .gt,.pw{-webkit-overflow-scrolling:touch}
  .pc-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:6px -10px 14px;padding:0 10px 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
  .pc-row::-webkit-scrollbar{display:none}
  .pc{flex:0 0 78%;scroll-snap-align:start;min-height:120px}
- .asc{padding-right:2px}
- aside{width:288px;max-width:86vw;background:var(--side)}
+ aside{width:288px;max-width:86vw}
  #nav button{min-height:48px}
- #bn{display:flex;position:fixed;left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:35;gap:2px;padding:6px;background:color-mix(in srgb,var(--card) 90%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 30px rgba(60,35,20,.28)}
- #bn button{flex:1;min-width:0;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:0;border-radius:16px;padding:6px 2px;color:var(--mut);font:600 10.5px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
- #bn button.on{background:var(--acc);color:var(--accT)}
+ /* Tabel "Pekerjaan pada Periode" -> daftar kartu, tanpa geser samping */
+ .tscroll{max-height:380px;-webkit-overflow-scrolling:touch;overflow-x:hidden}
+ .tscroll .tbl,.tscroll .tbl tbody{display:block;width:100%;min-width:0}
+ .tscroll .tbl tr:first-child{display:none}
+ .tscroll .tbl tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;padding:10px 0;border-top:1px solid var(--line)}
+ .tscroll .tbl td{display:block;border:0;padding:0;min-width:0;overflow-wrap:anywhere;white-space:normal!important}
+ .tscroll .tbl td:nth-child(1){grid-column:1;grid-row:1;color:var(--mut);font-size:12px}
+ .tscroll .tbl td:nth-child(5){grid-column:2;grid-row:1;justify-self:end}
+ .tscroll .tbl td:nth-child(2){grid-column:1/-1;font-weight:600}
+ .tscroll .tbl td:nth-child(3),.tscroll .tbl td:nth-child(4){grid-column:1/-1;color:var(--mut);font-size:12px}
+ .tscroll .tbl td:nth-child(4)::before{content:"Output: "}
+ .tscroll .tbl td[colspan]{grid-column:1/-1!important}
+ #bn{display:flex;position:fixed;left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:35;gap:2px;padding:6px;background:color-mix(in srgb,var(--slate) 94%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-radius:22px;box-shadow:0 10px 30px rgba(20,22,35,.4)}
+ #bn button{flex:1;min-width:0;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:0;border-radius:16px;padding:6px 2px;color:rgba(240,236,226,.68);font:600 10.5px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+ #bn button.on{background:#6b8866;color:#fff}
  #bn svg{width:20px;height:20px}
  #toast{bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
 }
@@ -605,14 +669,14 @@ render();
 </script>
 <script>
 (function(){
-PAL.splice(0,5,'#6b4630','#cf9254','#a8825f','#e6cfb3','#8c6b55');
-AV.splice(0,4,'#8a5a3c','#cf9254','#a8825f','#6b4630');
+PAL.splice(0,5,'#3f4a7a','#c4623c','#6b8866','#d6a032','#8b6f9c');
+AV.splice(0,4,'#6b8866','#c4623c','#3f4a7a','#d6a032');
 const T=[['dash','Beranda'],['jurnal','Jurnal'],['skp','SKP'],['tugas','Tugas']];
 const n=document.createElement('nav');n.id='bn';n.setAttribute('aria-label','Navigasi utama');
 n.innerHTML=T.map(t=>'<button data-tab="'+t[0]+'">'+svg(t[0])+t[1]+'</button>').join('')+'<button id="bnm"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button>';
 document.body.appendChild(n);
 n.querySelector('#bnm').onclick=()=>document.body.classList.add('nav-open');
-const mark=()=>n.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.tab?b.dataset.tab===tab:!T.some(t=>t[0]===tab)));
+const mark=()=>{document.body.dataset.tab=tab;n.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.tab?b.dataset.tab===tab:!T.some(t=>t[0]===tab)))};
 const r0=render;render=function(){r0();mark()};
 render();
 })();
