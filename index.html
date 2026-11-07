@@ -661,7 +661,7 @@ document.addEventListener('change',e=>{if(e.target.id!=='fotoIn'||!e.target.file
  const im=new Image(),u=URL.createObjectURL(e.target.files[0]);
  im.onload=()=>{const s=Math.min(im.width,im.height),c=document.createElement('canvas');c.width=c.height=192;
   c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,192,192);
-  S.p.foto=c.toDataURL('image/jpeg',.8);URL.revokeObjectURL(u);save();paintProf();toast('Foto profil diperbarui.')};
+  S.p.foto=c.toDataURL('image/jpeg',.7);URL.revokeObjectURL(u);save();paintProf();toast('Foto profil diperbarui.')};
  im.onerror=()=>toast('File bukan gambar yang valid.');im.src=u});
 document.addEventListener('click',e=>{if(e.target.id==='fotoDel'){delete S.p.foto;save();paintProf()}});
 render();
